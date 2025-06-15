@@ -184,23 +184,6 @@ with st.sidebar:
         st.session_state.processing = False
         st.rerun()
 
-# Display generation info if available
-if st.session_state.messages:
-    latest_message = st.session_state.messages[-1]
-    if latest_message.get("video_plan") and latest_message["role"] == "assistant":
-        st.markdown("### Latest Generation")
-        video_plan = latest_message["video_plan"]
-        metadata = video_plan.get("generation_metadata", {})
-        
-        st.write(f"**Topic:** {metadata.get('topic', 'N/A')}")
-        stages = metadata.get('stages_completed', [])
-        st.write(f"**Stages:** {len(stages)}/2 completed")
-        
-        if metadata.get('ready_for_animation'):
-            st.success("Ready for animation")
-        else:
-            st.warning("Partial generation")
-
 # Display chat messages
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
