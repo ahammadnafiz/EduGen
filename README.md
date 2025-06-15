@@ -25,6 +25,14 @@
 
 </div>
 
+## 🏗️ System Architecture
+
+<div align="center">
+  <img src="assets/dia2.jpeg" alt="EduGen System Design Diagram 1" width="400"/>
+  <img src="assets/dia1.jpeg" alt="EduGen System Design Diagram 2" width="400"/>
+ 
+</div>
+
 ## 🚀 Features
 
 ### ✨ Intelligent Two-Stage AI Pipeline
@@ -46,7 +54,7 @@
 - **Mathematics**: Algebra, Geometry, Calculus, Statistics, Applied Mathematics
 - **Computer Science**: Algorithms, Data Structures, Programming Concepts
 
-## 🏗️ Architecture
+## 🔄 Pipeline Overview
 
 ```
 User Input → Content Generator → Manim Code Generator → Animation Renderer → Final Video

@@ -125,7 +125,7 @@ h1 {
 """, unsafe_allow_html=True)
 
 # Minimal header
-st.title("EduGen")
+st.title(" 🧬 EduGen 🎬")
 st.markdown('<div class="subtitle">Create educational science videos with AI</div>', unsafe_allow_html=True)
 
 # Minimal sidebar with settings
