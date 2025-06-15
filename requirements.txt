@@ -1,0 +1,19 @@
+# Core Python Libraries
+streamlit
+python-dotenv
+
+# AI and LLM Libraries
+langchain
+langchain-core
+langchain-google-genai
+
+# Manim for Animations
+manim
+
+# Mathematical Processing
+sympy
+latex2mathml
+moviepy
+
+# Other Dependencies
+# openai==1.10.0
