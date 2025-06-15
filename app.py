@@ -126,7 +126,7 @@ h1 {
 
 # Minimal header
 st.title("EduGen")
-st.markdown('<div class="subtitle">Create educational math videos with AI</div>', unsafe_allow_html=True)
+st.markdown('<div class="subtitle">Create educational science videos with AI</div>', unsafe_allow_html=True)
 
 # Minimal sidebar with settings
 with st.sidebar:
@@ -135,15 +135,15 @@ with st.sidebar:
     # Complexity level
     complexity = st.selectbox(
         "Complexity:",
-        ["beginner", "intermediate", "advanced"],
-        index=1,
+        ["elementary", "middle-school", "high-school", "undergraduate", "advanced"],
+        index=2,
         label_visibility="collapsed"
     )
     
-    # Mathematical domain (auto-detect from query, but user can override)
+    # Scientific domain (auto-detect from query, but user can override)
     domain = st.selectbox(
         "Domain:",
-        ["auto-detect", "algebra", "geometry", "calculus", "statistics", "trigonometry"],
+        ["auto-detect", "physics", "chemistry", "biology", "earth-science", "mathematics", "computer-science"],
         index=0,
         label_visibility="collapsed"
     )
@@ -157,23 +157,27 @@ with st.sidebar:
     )
     
     st.markdown("---")
-      # Minimal example section
+    
+    # Minimal example section
     st.markdown("**Examples by Domain:**")
     
-    with st.expander("Algebra"):
-        st.markdown("• Solving quadratic equations\n• Linear systems\n• Factoring polynomials")
+    with st.expander("🔬 Physics"):
+        st.markdown("• Newton's laws of motion\n• Wave properties and behavior\n• Electromagnetic induction\n• Quantum mechanics basics")
     
-    with st.expander("Geometry"):
-        st.markdown("• Pythagorean theorem\n• Circle properties\n• Triangle congruence")
+    with st.expander("🧪 Chemistry"):
+        st.markdown("• Atomic structure and bonding\n• Chemical reactions and equilibrium\n• Periodic table trends\n• Molecular geometry")
     
-    with st.expander("Calculus"):
-        st.markdown("• How derivatives work\n• Area under a curve\n• Limits and continuity")
+    with st.expander("🧬 Biology"):
+        st.markdown("• Cell structure and function\n• DNA replication and transcription\n• Photosynthesis process\n• Evolution and natural selection")
     
-    with st.expander("Statistics"):
-        st.markdown("• Normal distribution\n• Probability basics\n• Data visualization")
+    with st.expander("🌍 Earth Science"):
+        st.markdown("• Plate tectonics\n• Water cycle and weather\n• Rock cycle and formation\n• Climate change mechanisms")
     
-    with st.expander("Trigonometry"):
-        st.markdown("• Sine and cosine functions\n• Unit circle\n• Trigonometric identities")
+    with st.expander("📊 Mathematics"):
+        st.markdown("• Algebra and equations\n• Geometric theorems\n• Calculus fundamentals\n• Statistics and probability")
+    
+    with st.expander("💻 Computer Science"):
+        st.markdown("• Algorithm complexity\n• Data structures\n• Programming concepts\n• Machine learning basics")
     
     if st.button("Clear chat", use_container_width=True):
         st.session_state.messages = []
@@ -197,7 +201,6 @@ if st.session_state.messages:
         else:
             st.warning("Partial generation")
 
-# Chat interface
 # Display chat messages
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
@@ -220,7 +223,8 @@ for message in st.session_state.messages:
                     )
             except FileNotFoundError:
                 st.error("Video file not found. Please try regenerating.")
-          # Minimal structured content display
+        
+        # Minimal structured content display
         if message.get("educational_breakdown"):
             with st.expander("View educational details"):
                 educational_breakdown = message["educational_breakdown"]
@@ -236,7 +240,8 @@ for message in st.session_state.messages:
                     st.write("**Learning Objectives:**")
                     for obj in educational_breakdown['learning_objectives']:
                         st.write(f"• {obj}")
-                  # Educational steps summary
+                
+                # Educational steps summary
                 if educational_breakdown.get('educational_steps'):
                     st.write("**Educational Steps:**")
                     for i, step in enumerate(educational_breakdown['educational_steps'][:3], 1):
@@ -274,7 +279,7 @@ for message in st.session_state.messages:
                         st.write(f"  Animations: {animations}")
 
 # Chat input - simplified
-if prompt := st.chat_input("What would you like me to explain?"):
+if prompt := st.chat_input("What scientific concept would you like me to explain?"):
     if not st.session_state.processing:
         # Add user message to chat history
         st.session_state.messages.append({
@@ -293,24 +298,29 @@ if prompt := st.chat_input("What would you like me to explain?"):
             status_container = st.container()
             
             st.session_state.processing = True
-            try:                # Step 1: Generate complete video plan (both educational and Manim structure)
+            
+            try:
+                # Step 1: Generate complete video plan (both educational and Manim structure)
                 with status_container:
                     status = st.status("Understanding your request...", expanded=False)
-                    with status:                        
-                        st.write("Analyzing mathematical concept...")
+                    with status:
+                        st.write("Analyzing scientific concept...")
                         
                         enhanced_prompt = f"""
                         Create an educational video animation about: {prompt}
                         
                         Requirements:
                         - Complexity level: {complexity}
-                        - Mathematical domain: {domain}
+                        - Scientific domain: {domain}
                         - Generate comprehensive educational content with clear step-by-step explanations
                         - Include detailed visual descriptions and animation plans
                         - Create engaging learning objectives and real-world applications
                         - Design content suitable for animated video format with proper timing
-                        - Include mathematical equations, diagrams, and interactive elements
-                        """# Use the complete video plan generator
+                        - Include scientific equations, diagrams, models, and interactive elements
+                        - Use appropriate scientific terminology and concepts
+                        """
+                        
+                        # Use the complete video plan generator
                         video_plan = script_generator.generate_complete_video_plan(enhanced_prompt)
                         
                         # Print video plan to terminal for debugging
@@ -348,35 +358,38 @@ if prompt := st.chat_input("What would you like me to explain?"):
                                 st.write("✓ Stage 1: Educational breakdown completed")
                             if "manim_structure" in stages_completed:
                                 st.write("✓ Stage 2: Manim structure completed")
-                                
                         else:
                             st.write("✗ Failed to generate content")
-                            raise Exception("Content generation failed")# Step 2: Generate Manim code
+                            raise Exception("Content generation failed")
+
+                # Step 2: Generate Manim code
                 with status_container:
                     status.update(label="Creating animation code...", state="running")
-                    with status:                        
+                    with status:
                         st.write("Converting to Manim animation code...")
                         
                         # Pass the complete video plan directly to Manim generator
                         st.write("Using complete video plan...")
                         if educational_breakdown.get('educational_steps'):
-                            st.write(f"📚 Educational steps: {len(educational_breakdown.get('educational_steps', []))}")                        
+                            st.write(f"📚 Educational steps: {len(educational_breakdown.get('educational_steps', []))}")
                         if educational_breakdown.get('learning_objectives'):
                             st.write(f"🎯 Learning objectives: {len(educational_breakdown.get('learning_objectives', []))}")
                         st.write(f"🏷️ Domain: {domain}")
-                          # Pass the complete video plan to Manim generator
-                        manim_code = manim_generator.generate_3b1b_manim_code(video_plan)
                         
-                        # Print Manim code info to terminal
+                        # Pass the complete video plan to Manim generator
+                        manim_code = manim_generator.generate_3b1b_manim_code(video_plan)
+                          # Print Manim code info to terminal
                         if manim_code:
                             print("\n" + "="*60)
                             print("🐍 MANIM CODE GENERATED IN APP.PY")
                             print("="*60)
                             print(f"Code length: {len(manim_code)} characters")
-                            print(f"Lines of code: {len(manim_code.split(chr(10)))}")
+                            newline_char = '\n'
+                            print(f"Lines of code: {len(manim_code.split(newline_char))}")
                             print(f"Contains 'def construct': {'✅' if 'def construct' in manim_code else '❌'}")
                             print(f"Contains 'from manim import': {'✅' if 'from manim import' in manim_code else '❌'}")
                             print("="*60)
+                        
                         if manim_code:
                             st.write("✓ Animation code generated")
                             st.write(f"✓ Code length: {len(manim_code)} characters")
@@ -399,7 +412,8 @@ if prompt := st.chat_input("What would you like me to explain?"):
                         else:
                             st.write("✗ Failed to generate animation code")
                             raise Exception("Animation code generation failed")
-                  # Step 3: Render animation
+
+                # Step 3: Render animation
                 with status_container:
                     status.update(label="Rendering animation...", state="running")
                     with status:
@@ -420,7 +434,9 @@ if prompt := st.chat_input("What would you like me to explain?"):
                             st.error(f"✗ Rendering error: {str(render_error)}")
                             st.error("The generated code had issues that prevented successful rendering.")
                             st.info("💡 This feedback helps improve the AI code generator.")
-                            raise# Success response - enhanced with more details
+                            raise
+
+                # Success response - enhanced with more details
                 # Extract clean topic title - remove the enhanced prompt part
                 clean_prompt = prompt.split('\n')[0].strip()  # Get just the first line (original user prompt)
                 title = educational_breakdown.get('title', clean_prompt)
@@ -452,7 +468,8 @@ The animation includes {len(educational_breakdown.get('educational_steps', []))}
                     response_content += f"\n\n**Real-world applications:** {app_text}"
 
                 message_placeholder.markdown(response_content)
-                  # Add assistant message to chat history
+                
+                # Add assistant message to chat history
                 st.session_state.messages.append({
                     "role": "assistant",
                     "content": response_content,
@@ -478,10 +495,11 @@ Please try rephrasing your question or ensure the mathematical concept is specif
                     "role": "assistant",
                     "content": error_message,
                     "timestamp": time.time()
-                })            
+                })
+            
             finally:
                 st.session_state.processing = False
 
 # Minimal footer
 st.markdown("---")
-st.markdown("*EduGen - AI-powered math education*")
+st.markdown("*EduGen - AI-powered science education*")
