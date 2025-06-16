@@ -1161,7 +1161,7 @@ Begin the Manim structure generation now:
         }
         
 
-GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
+GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY_SCRIPT')
 if GOOGLE_API_KEY:
     script_generator = ScienceVideoGenerator(GOOGLE_API_KEY)
     print("✅ Enhanced Stage 1 Science Video Generator initialized successfully!")

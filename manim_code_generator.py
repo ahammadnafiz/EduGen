@@ -130,7 +130,6 @@ Duration: {duration} seconds
 Educational Steps: {steps_count}""".format(title=title, duration=duration, steps_count=len(steps)) + """
 
 REQUIREMENTS FOR MANIM CODE:
-
 🎯 EDUCATIONAL FLOW:
 - Convert each educational step into a distinct scene method
 - Maintain pedagogical progression from the video plan
@@ -2402,7 +2401,7 @@ Generate the complete Manim code now. Ensure it's production-ready and follows a
         return "# SYNTAX ERROR DETECTED: {}\n# LINE {}: {}\n\n".format(syntax_error.msg, syntax_error.lineno, syntax_error.text) + code
 
 # Initialize the Manim code generator
-GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
+GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY_MANIM')
 if GOOGLE_API_KEY:
     manim_generator = ManIMCodeGenerator(GOOGLE_API_KEY)
     print("✅ Advanced Manim Code Generator initialized successfully!")

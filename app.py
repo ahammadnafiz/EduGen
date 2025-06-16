@@ -3,6 +3,7 @@ import time
 import os
 from script_generator import script_generator
 from manim_code_generator import manim_generator
+# from v0 import manim_generator
 from animation_creator import create_animation_from_code
 
 st.set_page_config(
