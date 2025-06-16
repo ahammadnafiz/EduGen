@@ -162,6 +162,8 @@ REQUIREMENTS FOR MANIM CODE:
 
 📊 VISUAL ELEMENTS TO INCLUDE:
 - Title animations with engaging reveals
+- No 16:9 aspect ratio images or ImageMobject
+- No 16:9 aspect ration text or TextMobject
 - Step-by-step concept introductions
 - Mathematical equations and formulas
 - Diagrams and geometric shapes (using built-in Manim objects)
@@ -1216,6 +1218,669 @@ Generate the complete Manim code now. Ensure it's production-ready and follows a
 - Use layered animations: background, main content, emphasis overlays
 - Include rhythmic pacing: alternate fast/slow animation sequences
 - Apply consistent visual metaphors throughout educational progression
+
+🎯 STEP-BY-STEP ANIMATION ENHANCEMENT REQUIREMENTS 🎯:
+
+═══════════════════════════════════════════════════════════════
+📚 DETAILED STEP ANIMATIONS WITH INTUITIONS AND EXPLANATIONS:
+═══════════════════════════════════════════════════════════════
+
+For EACH educational step, you MUST include:
+
+1. 📝 CONCEPT INTRODUCTION:
+- Start with a clear title that explains what we're learning
+- Use Write() animation for the title with appropriate timing
+- Include a brief subtitle explaining the intuition behind the concept
+- Example: "Understanding Derivatives: The Rate of Change"
+
+2. 🔍 VISUAL INTUITION BUILDING:
+- Create concrete visual analogies before abstract concepts
+- Use familiar shapes and objects that transform into mathematical concepts
+- Implement step-by-step visual progression from simple to complex
+- Example: Show a moving car (rectangle) → speed visualization → derivative concept
+
+3. 💡 DETAILED EXPLANATIONS:
+- Break down complex concepts into 3-5 smaller sub-concepts
+- For each sub-concept, create a dedicated animation sequence
+- Use explanatory text that appears with Write() or FadeIn()
+- Include "why this matters" context for each step
+- Example: "Why do we need limits? Because we want to find exact rates of change!"
+
+4. 🎨 PROGRESSIVE VISUAL COMPLEXITY:
+- Level 1: Simple shapes and basic movements
+- Level 2: Add labels, equations, and relationships
+- Level 3: Show interactions and transformations
+- Level 4: Connect to real-world applications
+- Use Transform() to morph objects between complexity levels
+
+5. 🔄 INTERACTIVE-STYLE DEMONSTRATIONS:
+- Create "What if?" scenarios with animated responses
+- Show cause-and-effect relationships through animation
+- Use highlighting (Indicate(), Flash()) to draw attention
+- Implement before/after comparisons with side-by-side animations
+
+6. 📊 STEP-BY-STEP PROBLEM SOLVING:
+- Break mathematical problems into individual steps
+- Animate each step with detailed explanations
+- Show the "thinking process" with animated thought bubbles
+- Use color coding to track variables and operations
+- Example: Solving x² + 3x + 2 = 0 step by step with visual algebra
+
+7. 🎭 EMOTIONAL ENGAGEMENT TECHNIQUES:
+- Use surprise reveals: objects appearing unexpectedly
+- Create anticipation with slow build-ups before big reveals
+- Use humor through playful animations and unexpected transformations
+- Implement "aha moment" effects with Flash() and Wiggle()
+
+8. 🔗 CONNECTION BUILDING:
+- Show relationships between concepts with animated arrows
+- Create visual bridges between different mathematical topics
+- Use transformation chains to show concept evolution
+- Implement callback animations that reference previous concepts
+
+═══════════════════════════════════════════════════════════════
+🎬 MANDATORY ANIMATION PATTERNS FOR EACH STEP:
+═══════════════════════════════════════════════════════════════
+
+STEP INTRODUCTION PATTERN:
+```python
+def step_X_concept_name(self):
+    # Duration: 30-45 seconds
+    
+    # 1. Clear previous content
+    self.play(FadeOut(*self.mobjects))
+    self.wait(0.5)
+    
+    # 2. Introduce step title with context
+    step_title = Text("Step X: [Concept Name]", font_size=44, color=BLUE).shift(UP*3)
+    intuition = Text("Intuition: [Why this matters]", font_size=28, color=WHITE).shift(UP*2)
+    
+    self.play(Write(step_title))
+    self.wait(1)
+    self.play(Write(intuition))
+    self.wait(2)
+    
+    # 3. Create visual analogy
+    analogy_title = Text("Let's think of this like...", font_size=24, color=YELLOW).shift(UP*0.5)
+    analogy_visual = [create visual representation]
+    
+    self.play(Write(analogy_title))
+    self.play(Create(analogy_visual))
+    self.wait(2)
+    
+    # 4. MANDATORY: Text-based explanation after visual scene
+    self.provide_detailed_text_explanation()
+    
+    # 5. Transform to mathematical concept
+    math_concept = [mathematical representation]
+    explanation = Text("This is exactly like [mathematical concept]!", 
+                    font_size=22, color=GREEN).shift(DOWN*2)
+    
+    self.play(Transform(analogy_visual, math_concept))
+    self.play(Write(explanation))
+    self.wait(3)
+    
+    # 6. MANDATORY: Text explanation after mathematical transformation
+    self.explain_mathematical_connection()
+    
+    # 7. Detailed breakdown
+    self.breakdown_sub_concepts()
+    
+    # 8. Connect to bigger picture
+    self.connect_to_previous_concepts()
+    
+def provide_detailed_text_explanation(self):
+    # MANDATORY: Detailed text explanation after each visual scene
+    # Clear visual elements but keep title
+    self.play(FadeOut(*[obj for obj in self.mobjects[2:]]))  # Keep title and subtitle
+    
+    # Create comprehensive text explanation
+    explanation_title = Text("Let me explain what we just saw:", 
+                            font_size=26, color=YELLOW).shift(UP*1.5)
+    
+    explanations = [
+        "• First, we observed [specific visual element] which represents [concept]",
+        "• This shows us that [key insight from the visual]", 
+        "• The important thing to notice is [critical observation]",
+        "• This connects to our overall goal because [relevance]"
+    ]
+    
+    self.play(Write(explanation_title))
+    self.wait(1)
+    
+    explanation_group = VGroup()
+    for i, exp_text in enumerate(explanations):
+        exp = Text(exp_text, font_size=20, color=WHITE).shift(UP*(0.5-i*0.7))
+        explanation_group.add(exp)
+        self.play(Write(exp))
+        self.wait(1.5)
+    
+    # Pause for understanding
+    understanding_prompt = Text("Take a moment to think about this...", 
+                            font_size=18, color=ORANGE).shift(DOWN*2.5)
+    self.play(Write(understanding_prompt))
+    self.wait(3)
+    
+    # Clear explanations before next section
+    self.play(FadeOut(explanation_title, explanation_group, understanding_prompt))
+    self.wait(0.5)
+```
+
+SUB-CONCEPT BREAKDOWN PATTERN:
+```python
+def breakdown_sub_concepts(self):
+    # For each sub-concept within the main concept
+    
+    sub_concepts = [
+        "Sub-concept 1: [Specific detail]",
+        "Sub-concept 2: [Another detail]", 
+        "Sub-concept 3: [Final detail]"
+    ]
+    
+    for i, concept in enumerate(sub_concepts):
+        # Clear space for new concept
+        if i > 0:
+            self.play(FadeOut(*[obj for obj in self.mobjects if obj != main_visual]))
+        
+        # Introduce sub-concept
+        sub_title = Text(concept, font_size=28, color=ORANGE).shift(UP*1)
+        self.play(Write(sub_title))
+        
+        # Create specific visual for this sub-concept
+        sub_visual = [create_specific_visual_for_concept(i)]
+        self.play(Create(sub_visual))
+        self.wait(2)
+        
+        # MANDATORY: Detailed text explanation after visual
+        self.explain_sub_concept_visually(i, concept)
+        
+        # Show connection to main concept
+        self.play(Indicate(main_visual))
+        self.wait(1)
+        
+def explain_sub_concept_visually(self, concept_index, concept_name):
+    # MANDATORY: Text explanation after each sub-concept visual
+    
+    # Fade out visual but keep title
+    visual_objects = [obj for obj in self.mobjects if obj.get_color() != ORANGE]
+    self.play(FadeOut(*visual_objects[1:]))  # Keep main title
+    
+    # Create explanation framework
+    explanation_header = Text("Let's break this down:", 
+                            font_size=24, color=YELLOW).shift(UP*2)
+    self.play(Write(explanation_header))
+    
+    # Detailed explanations for this sub-concept
+    detailed_explanations = [
+        f"What we just saw: [Describe the visual representation]",
+        f"Why it matters: [Explain the significance]",
+        f"How it works: [Describe the mechanism or process]",
+        f"Connection to main concept: [Show the relationship]",
+        f"Real-world example: [Provide concrete application]"
+    ]
+    
+    explanation_group = VGroup()
+    for j, exp in enumerate(detailed_explanations):
+        exp_text = Text(exp, font_size=18, color=WHITE).shift(UP*(1-j*0.5))
+        explanation_group.add(exp_text)
+        self.play(Write(exp_text))
+        self.wait(1.2)
+    
+    # Key takeaway
+    key_takeaway = Text(f"Key insight: [Main learning point from this sub-concept]", 
+                    font_size=20, color=GREEN).shift(DOWN*2)
+    self.play(Write(key_takeaway))
+    self.play(Indicate(key_takeaway))
+    self.wait(2)
+    
+    # Thinking pause
+    think_prompt = Text("Think about how this connects to what we learned before...", 
+                    font_size=16, color=GRAY).shift(DOWN*2.8)
+    self.play(Write(think_prompt))
+    self.wait(3)
+    
+    # Clear all explanations
+    self.play(FadeOut(explanation_header, explanation_group, key_takeaway, think_prompt))
+    self.wait(0.5)
+```
+
+PROBLEM-SOLVING DEMONSTRATION PATTERN:
+```python
+def demonstrate_problem_solving(self):
+    # Show step-by-step problem solving with detailed explanations
+    
+    # Present the problem
+    problem = Text("Problem: [Specific problem statement]", 
+                font_size=32, color=BLUE).shift(UP*2.5)
+    self.play(Write(problem))
+    self.wait(2)
+    
+    # Show the approach
+    approach = Text("Approach: [Strategy we'll use]", 
+                font_size=24, color=YELLOW).shift(UP*1.5)
+    self.play(Write(approach))
+    self.wait(1)
+    
+    # Step-by-step solution
+    steps = [
+        ("Step 1: [First action]", "[Detailed explanation of why]"),
+        ("Step 2: [Second action]", "[Detailed explanation of why]"),
+        ("Step 3: [Final action]", "[Detailed explanation of why]")
+    ]
+    
+    solution_area = VGroup()
+    
+    for i, (step, explanation) in enumerate(steps):
+        # Show the step
+        step_text = Text(step, font_size=26, color=GREEN).shift(UP*(0.5-i*0.8))
+        self.play(Write(step_text))
+        solution_area.add(step_text)
+        
+        # Show visual representation of the step
+        step_visual = [create_visual_for_step(i)]
+        step_visual.shift(LEFT*3 + UP*(0.5-i*0.8))
+        self.play(Create(step_visual))
+        solution_area.add(step_visual)
+        self.wait(2)
+        
+        # MANDATORY: Detailed text explanation after each step visual
+        self.explain_problem_solving_step(i, step, explanation, step_visual)
+        
+        # Highlight the connection to previous steps
+        if i > 0:
+            self.play(Indicate(solution_area[i-1]))
+            self.wait(0.5)
+    
+    # Show final result
+    result = Text("Result: [Final answer with meaning]", 
+                font_size=28, color=PURPLE).shift(DOWN*2.5)
+    self.play(Write(result))
+    self.play(Flash(result))
+    self.wait(3)
+    
+    # MANDATORY: Final comprehensive explanation
+    self.provide_solution_summary()
+    
+def explain_problem_solving_step(self, step_number, step_description, reasoning, visual_element):
+    # MANDATORY: Comprehensive explanation after each problem-solving step
+    
+    # Clear screen but keep problem title
+    self.play(FadeOut(*[obj for obj in self.mobjects[1:]]))  # Keep problem statement
+    
+    # Create step explanation framework
+    step_header = Text(f"Let's understand {step_description}", 
+                    font_size=24, color=ORANGE).shift(UP*2.5)
+    self.play(Write(step_header))
+    
+    # Detailed breakdown of this step
+    step_explanations = [
+        f"What we did: [Specific action taken in this step]",
+        f"Why we did it: [Reasoning behind this approach]",
+        f"What it shows us: [What this step reveals]",
+        f"How it helps: [How this moves us toward the solution]",
+        f"What to watch for: [Common mistakes or key insights]"
+    ]
+    
+    explanation_group = VGroup()
+    for j, exp in enumerate(step_explanations):
+        exp_text = Text(exp, font_size=18, color=WHITE).shift(UP*(1.5-j*0.6))
+        explanation_group.add(exp_text)
+        self.play(Write(exp_text))
+        self.wait(1.5)
+    
+    # Mathematical insight
+    if step_number < 2:  # For first two steps
+        math_insight = Text("Mathematical insight: [Key mathematical principle used]", 
+                        font_size=20, color=BLUE).shift(DOWN*1.5)
+        self.play(Write(math_insight))
+        self.play(Indicate(math_insight))
+        self.wait(2)
+        explanation_group.add(math_insight)
+    
+    # Check understanding
+    understanding_check = Text("Does this make sense? Let's verify...", 
+                            font_size=18, color=YELLOW).shift(DOWN*2.5)
+    self.play(Write(understanding_check))
+    self.wait(2)
+    
+    # Clear explanations
+    self.play(FadeOut(step_header, explanation_group, understanding_check))
+    self.wait(0.5)
+    
+def provide_solution_summary(self):
+    # MANDATORY: Comprehensive summary after problem solving
+    
+    self.play(FadeOut(*self.mobjects))
+    
+    summary_title = Text("Solution Summary & Key Insights", 
+                        font_size=28, color=PURPLE).shift(UP*3)
+    self.play(Write(summary_title))
+    
+    summary_points = [
+        "🎯 What we solved: [Restate the problem clearly]",
+        "🔍 Our approach: [Summarize the method used]", 
+        "⚡ Key insights: [Main mathematical insights discovered]",
+        "🔗 Connections: [How this relates to other concepts]",
+        "💡 Why it matters: [Real-world significance]",
+        "🚀 Next steps: [What this enables us to do next]"
+    ]
+    
+    for i, point in enumerate(summary_points):
+        point_text = Text(point, font_size=20, color=WHITE).shift(UP*(2-i*0.5))
+        self.play(Write(point_text))
+        self.wait(1.5)
+    
+    # Final reflection
+    reflection = Text("Take a moment to reflect on what we've learned...", 
+                    font_size=18, color=ORANGE).shift(DOWN*2.5)
+    self.play(Write(reflection))
+    self.wait(4)
+```
+
+VISUAL INTUITION BUILDING PATTERN:
+```python
+def build_visual_intuition(self, concept_name):
+    # Create layered understanding through visual progression
+    
+    # Layer 1: Everyday analogy
+    everyday_title = Text(f"Think of {concept_name} like...", 
+                        font_size=28, color=BLUE).shift(UP*2.5)
+    everyday_example = Text("[Relatable everyday example]", 
+                        font_size=24, color=WHITE).shift(UP*1.5)
+    
+    self.play(Write(everyday_title))
+    self.play(Write(everyday_example))
+    self.wait(2)
+    
+    # Create visual representation of everyday example
+    everyday_visual = [create_everyday_visual()]
+    self.play(Create(everyday_visual))
+    self.wait(2)
+    
+    # MANDATORY: Detailed explanation of everyday analogy
+    self.explain_everyday_analogy(concept_name, everyday_visual)
+    
+    # Layer 2: Mathematical parallel
+    parallel_title = Text("In mathematics, this becomes...", 
+                        font_size=24, color=YELLOW).shift(UP*0.5)
+    self.play(Write(parallel_title))
+    
+    # Transform everyday visual to mathematical representation
+    math_visual = [create_mathematical_visual()]
+    self.play(Transform(everyday_visual, math_visual))
+    self.wait(2)
+    
+    # MANDATORY: Detailed explanation of mathematical transformation
+    self.explain_mathematical_transformation(everyday_visual, math_visual)
+    
+    # Layer 3: Formal definition
+    formal_title = Text("Formally, we define this as:", 
+                    font_size=22, color=GREEN).shift(DOWN*0.5)
+    formal_def = MathTex(r"[Mathematical definition]", 
+                        font_size=32).shift(DOWN*1.5)
+    
+    self.play(Write(formal_title))
+    self.play(Write(formal_def))
+    self.wait(3)
+    
+    # MANDATORY: Detailed explanation of formal definition
+    self.explain_formal_definition(formal_def)
+    
+    # Layer 4: Why it matters
+    importance = Text("This concept is crucial for: [Applications]", 
+                    font_size=20, color=ORANGE).shift(DOWN*2.5)
+    self.play(Write(importance))
+    self.play(Indicate(importance))
+    self.wait(2)
+    
+    # MANDATORY: Comprehensive summary explanation
+    self.provide_intuition_summary(concept_name)
+    
+def explain_everyday_analogy(self, concept_name, visual_element):
+    # MANDATORY: Comprehensive explanation of the everyday analogy
+    
+    self.play(FadeOut(*[obj for obj in self.mobjects[2:]]))  # Keep title and example
+    
+    analogy_header = Text("Let's explore this analogy in detail:", 
+                        font_size=24, color=YELLOW).shift(UP*2)
+    self.play(Write(analogy_header))
+    
+    analogy_explanations = [
+        f"🔍 What we see: [Describe the visual elements clearly]",
+        f"🎯 Why this works: [Explain why this analogy is effective]",
+        f"🔗 Key similarities: [Draw parallels to the mathematical concept]",
+        f"⚠️ Where it breaks down: [Acknowledge limitations of the analogy]",
+        f"💭 What to remember: [Key takeaway from this comparison]"
+    ]
+    
+    for i, exp in enumerate(analogy_explanations):
+        exp_text = Text(exp, font_size=18, color=WHITE).shift(UP*(1-i*0.5))
+        self.play(Write(exp_text))
+        self.wait(1.8)
+    
+    reflection_prompt = Text("Think: How does this everyday example help you understand the concept?", 
+                        font_size=16, color=ORANGE).shift(DOWN*2.2)
+    self.play(Write(reflection_prompt))
+    self.wait(3)
+    
+    self.play(FadeOut(*self.mobjects[3:]))  # Clear explanations, keep base elements
+    
+def explain_mathematical_transformation(self, everyday_vis, math_vis):
+    # MANDATORY: Detailed explanation of the transformation process
+    
+    transform_header = Text("Now let's see the mathematical connection:", 
+                        font_size=24, color=BLUE).shift(UP*2.5)
+    self.play(Write(transform_header))
+    
+    transformation_steps = [
+        "📊 Visual mapping: [How everyday elements map to math elements]",
+        "🔄 The transformation: [What changed and what stayed the same]", 
+        "🧮 Mathematical meaning: [What the math representation tells us]",
+        "🎯 Why this matters: [How this helps solve problems]",
+        "🚀 What we can do now: [New capabilities this representation gives us]"
+    ]
+    
+    for i, step in enumerate(transformation_steps):
+        step_text = Text(step, font_size=18, color=WHITE).shift(UP*(1.5-i*0.5))
+        self.play(Write(step_text))
+        self.wait(2)
+    
+    key_insight = Text("🔑 Key insight: The math preserves the essential relationships!", 
+                    font_size=20, color=GREEN).shift(DOWN*1.8)
+    self.play(Write(key_insight))
+    self.play(Flash(key_insight))
+    self.wait(2)
+    
+    self.play(FadeOut(*self.mobjects[1:]))  # Clear all but original title
+    
+def explain_formal_definition(self, definition_element):
+    # MANDATORY: Detailed breakdown of the formal definition
+    
+    definition_header = Text("Let's decode this formal definition:", 
+                        font_size=24, color=PURPLE).shift(UP*2.5)
+    self.play(Write(definition_header))
+    
+    definition_breakdown = [
+        "📝 What each symbol means: [Break down mathematical notation]",
+        "🔍 The structure: [Explain the logical structure]",
+        "⚡ Why it's written this way: [Justify the formal approach]", 
+        "🎯 What it captures: [What aspects of the concept it formalizes]",
+        "🛠️ How to use it: [Practical application of the definition]"
+    ]
+    
+    for i, breakdown in enumerate(definition_breakdown):
+        breakdown_text = Text(breakdown, font_size=18, color=WHITE).shift(UP*(1.5-i*0.5))
+        self.play(Write(breakdown_text))
+        self.wait(2)
+    
+    practical_note = Text("💡 Remember: Formal definitions give us precision and power!", 
+                        font_size=19, color=ORANGE).shift(DOWN*2)
+    self.play(Write(practical_note))
+    self.wait(2)
+    
+    self.play(FadeOut(*self.mobjects[1:]))  # Clear explanations
+    
+def provide_intuition_summary(self, concept_name):
+    # MANDATORY: Comprehensive summary of the intuition-building process
+    
+    summary_header = Text(f"Summary: Understanding {concept_name}", 
+                        font_size=26, color=PURPLE).shift(UP*3)
+    self.play(Write(summary_header))
+    
+    journey_recap = [
+        "🚀 Our journey: From everyday analogy → visual → mathematical → formal",
+        "🎯 Core insight: [Main understanding gained]",
+        "🔗 Connections made: [How this links to other concepts]", 
+        "💪 New abilities: [What you can now do with this knowledge]",
+        "🎓 Next level: [What this prepares you for]"
+    ]
+    
+    for i, recap in enumerate(journey_recap):
+        recap_text = Text(recap, font_size=19, color=WHITE).shift(UP*(2-i*0.6))
+        self.play(Write(recap_text))
+        self.wait(2)
+    
+    final_reflection = Text("Take a moment to appreciate how far your understanding has grown!", 
+                        font_size=18, color=YELLOW).shift(DOWN*2.5)
+    self.play(Write(final_reflection))
+    self.wait(4)
+```
+
+═══════════════════════════════════════════════════════════════
+🎯 ENHANCED EXPLANATION REQUIREMENTS:
+═══════════════════════════════════════════════════════════════
+
+🔥 MANDATORY TEXT-BASED EXPLANATIONS AFTER EVERY VISUAL SCENE:
+
+CRITICAL REQUIREMENT: After EVERY visual animation or scene, you MUST include a comprehensive text-based explanation that:
+
+1. 📝 EXPLAINS WHAT JUST HAPPENED:
+- Describe exactly what the audience just saw visually
+- Break down each visual element and its meaning
+- Explain the sequence of animations and why they occurred
+- Use clear, descriptive language that reinforces the visual learning
+
+2. 🎯 CONNECTS TO THE LEARNING OBJECTIVE:
+- Explicitly state how the visual relates to the educational goal
+- Draw connections between the animation and the concept being taught
+- Explain why this particular visual representation was chosen
+- Show how the visual supports understanding of the abstract concept
+
+3. 🔍 PROVIDES DEEPER INSIGHT:
+- Offer additional context not shown in the visual
+- Explain underlying principles or mechanisms
+- Address potential questions that might arise from the visual
+- Provide mathematical or scientific reasoning behind what was shown
+
+4. 🔗 BUILDS CONNECTIONS:
+- Link to previously learned concepts
+- Preview how this connects to upcoming material
+- Show relationships between different parts of the subject
+- Create a narrative thread that ties concepts together
+
+5. ✅ CHECKS UNDERSTANDING:
+- Include reflection prompts: "Notice how...", "Think about...", "Consider..."
+- Pose implicit questions that guide thinking
+- Provide opportunities for mental processing
+- Use confirmation language: "This shows us that...", "We can see that..."
+
+TEXT EXPLANATION STRUCTURE FOR EVERY VISUAL SCENE:
+```python
+def explain_visual_scene(self, scene_description):
+    # Clear visual elements but maintain context
+    self.play(FadeOut(*[visual_objects]))
+    
+    # 1. Describe what was shown
+    description = Text("What we just saw: [Detailed description]", 
+                    font_size=22, color=YELLOW).shift(UP*2)
+    self.play(Write(description))
+    self.wait(2)
+    
+    # 2. Explain the meaning
+    meaning = Text("This represents: [Conceptual meaning]", 
+                font_size=20, color=WHITE).shift(UP*1)
+    self.play(Write(meaning))
+    self.wait(2)
+    
+    # 3. Connect to learning objective
+    connection = Text("This helps us understand: [Learning connection]", 
+                    font_size=20, color=GREEN).shift(ORIGIN)
+    self.play(Write(connection))
+    self.wait(2)
+    
+    # 4. Provide insight
+    insight = Text("Key insight: [Deeper understanding]", 
+                font_size=20, color=ORANGE).shift(DOWN*1)
+    self.play(Write(insight))
+    self.wait(2)
+    
+    # 5. Reflection prompt
+    reflection = Text("Think about: [Guided reflection question]", 
+                    font_size=18, color=BLUE).shift(DOWN*2)
+    self.play(Write(reflection))
+    self.wait(3)
+    
+    # Clear explanations before next section
+    self.play(FadeOut(description, meaning, connection, insight, reflection))
+    self.wait(0.5)
+```
+
+🎯 IMPLEMENTATION REQUIREMENTS:
+
+- EVERY visual scene must be followed by text explanation
+- Text explanations should be 15-30 seconds in duration
+- Use different font sizes for hierarchy: 24 for main points, 20 for details, 18 for prompts
+- Include emojis and visual markers to make text engaging
+- Provide adequate wait times for reading and processing
+- Clear text explanations before moving to next visual scene
+- Use color coding: YELLOW for descriptions, WHITE for explanations, GREEN for connections, ORANGE for insights, BLUE for reflections
+
+1. CONTEXT SETTING:
+- Always explain WHY we're learning this concept
+- Connect to previous knowledge: "Remember when we learned X? This builds on that..."
+- Show the big picture: "This is step Y of our journey toward understanding Z"
+
+2. MULTIPLE PERSPECTIVES:
+- Geometric interpretation (visual shapes and transformations)
+- Algebraic interpretation (equations and symbols)
+- Numerical interpretation (specific examples with numbers)
+- Practical interpretation (real-world applications)
+
+3. COMMON MISCONCEPTIONS:
+- Address typical student confusion points
+- Show incorrect approaches and why they fail
+- Demonstrate correct thinking process
+- Use visual corrections with before/after animations
+
+4. MEMORY AIDS:
+- Create visual mnemonics for key concepts
+- Use color coding consistently throughout
+- Implement repetition with variation
+- Build on familiar patterns and analogies
+
+5. INTERACTIVE ELEMENTS:
+- Pose questions to the audience with animated reveals
+- Show "What would happen if..." scenarios
+- Create suspense before revealing key insights
+- Use polling-style animations: "Raise your hand if you think..."
+
+═══════════════════════════════════════════════════════════════
+💫 VISUAL STORYTELLING REQUIREMENTS:
+═══════════════════════════════════════════════════════════════
+
+Each step must tell a complete story with:
+- Beginning: Set up the problem or concept
+- Middle: Explore the concept through multiple angles
+- End: Synthesize understanding and connect to bigger picture
+
+Use these animation techniques:
+- Zoom effects for emphasis: camera.animate.scale(1.5)
+- Rotation for perspective: obj.animate.rotate(PI/4)
+- Morphing for concept evolution: Transform(shape1, shape2)
+- Highlighting for attention: Indicate(), Flash(), Wiggle()
+- Movement for relationships: obj.animate.shift(direction)
+- Scaling for importance: obj.animate.scale(1.2)
+- Color changes for categorization: obj.animate.set_color(new_color)
 
 ⚠️ FINAL VALIDATION CHECKLIST:
 - [ ] No overlapping text or visual elements
