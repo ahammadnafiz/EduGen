@@ -3,7 +3,7 @@ import re
 import json
 import logging
 from dotenv import load_dotenv
-import textwrap  
+import textwrap  # Added to normalize indentation
 from langchain.chains import ConversationChain
 from langchain_core.prompts import ChatPromptTemplate, HumanMessagePromptTemplate, MessagesPlaceholder
 from langchain_core.messages import SystemMessage
@@ -308,39 +308,15 @@ REQUIREMENTS FOR MANIM CODE:
 - Use smart scaling: automatically reduce font_size if text doesn't fit in allocated space
 - Implement collision detection: check for overlap before finalizing positions
 
-⚠️ CRITICAL MANIM POSITIONING CONSTANTS AND LAYOUT SYSTEM:
-- ORIGIN: Center point [0, 0, 0] - primary reference for all positioning
-- CARDINAL DIRECTIONS: UP, DOWN, LEFT, RIGHT (never use CENTER, MIDDLE, TOP, BOTTOM)
-- DIAGONAL CONSTANTS: UL, UR, DL, DR for corner positioning
-- STANDARD MULTIPLIERS: Use increments of 0.5 (UP*1.5, LEFT*2.5, etc.)
-- SAFE POSITIONING ZONES:
-  * TITLE_ZONE: Y=2.5 to Y=3.5, X=-5 to X=5 (main headings)
-  * SUBTITLE_ZONE: Y=1.5 to Y=2.4, X=-5 to X=5 (section headers)
-  * CONTENT_ZONE: Y=-1.5 to Y=1.4, X=-6 to X=6 (main content)
-  * FOOTER_ZONE: Y=-2.5 to Y=-1.6, X=-5 to X=5 (summaries, notes)
-  * MARGIN_BUFFER: 0.3 units minimum from zone boundaries
-- LAYOUT TEMPLATES:
-  * SINGLE_COLUMN: Content centered, X=-1 to X=1
-  * TWO_COLUMN: Left X=-4 to X=-1, Right X=1 to X=4
-  * THREE_COLUMN: Left X=-5 to X=-2, Center X=-1.5 to X=1.5, Right X=2 to X=5
-  * DIAGRAM_TEXT: Diagram LEFT (X=-4 to X=-1), Text RIGHT (X=1 to X=4)
-- MATHEMATICAL POSITIONING:
-  * EQUATION_CENTER: Y=0, X=0 for main equations
-  * EQUATION_TOP: Y=2, X=0 for title equations
-  * VARIABLE_ZONES: Distribute variables at Y=1, Y=0, Y=-1 with X spacing
-  * AXIS_PLACEMENT: Standard coordinate systems at ORIGIN with appropriate scaling
-- ANIMATION ANCHORS:
-  * ENTRY_POINTS: Objects start at screen edges (X=±8, Y=±5) before animating in
-  * EXIT_POINTS: Objects move to screen edges before FadeOut
-  * TRANSITION_HUBS: Temporary positions during complex movements
-- RESPONSIVE POSITIONING:
-  * AUTO_SCALE: If object width > 10 units, scale to fit: obj.scale(10/obj.get_width())
-  * OVERFLOW_HANDLING: Split long text into multiple lines rather than extend bounds
-  * DYNAMIC_SPACING: Adjust spacing based on number of objects in scene
-- POSITIONING VALIDATION:
-  * PRE_PLACEMENT_CHECK: Verify coordinates within safe zones before animation
-  * COLLISION_DETECTION: Check for overlap with existing objects
-  * BOUNDS_VERIFICATION: Ensure all objects remain within 16:9 aspect ratio limits
+⚠️ CRITICAL MANIM POSITIONING CONSTANTS (MUST USE THESE EXACT NAMES):
+- ORIGIN (center of screen, coordinates [0, 0, 0]) - NOT "CENTER"
+- UP (positive Y direction)
+- DOWN (negative Y direction) 
+- LEFT (negative X direction)
+- RIGHT (positive X direction)
+- UL (upper left), UR (upper right), DL (down left), DR (down right)
+- Use multiples: UP*2, DOWN*3, LEFT*4, RIGHT*1.5
+- Combine: UP*2 + LEFT*3, DOWN*1 + RIGHT*2
 
 ⚠️ NEVER USE THESE (they don't exist in Manim):
 - CENTER (use ORIGIN instead)
@@ -769,50 +745,9 @@ class ThreeDSurfacePlot(ThreeDScene):
         self.add(axes,gauss_plane)
 ```
 
-🎓 REAL MANIM ANIMATION INSPIRATION GUIDANCE:
-
-Study these examples to understand how REAL Manim animations are constructed:
-
-🔥 PROFESSIONAL ANIMATION PATTERNS:
-1. **Unit Circle to Sine Wave Connection (Example 16)**: Shows how mathematical concepts are visually connected through animated relationships. The moving dot creates the sine curve in real-time, demonstrating the fundamental connection between circular motion and trigonometric functions.
-
-2. **LaTeX Integration and Grid Transformations (Example 17)**: Demonstrates sophisticated text handling with LaTeX, smooth transitions between concepts, and advanced grid manipulations. Shows how to create engaging mathematical content with proper staging.
-
-3. **3D Scene Management (Example 18)**: Illustrates how to handle 3D scenes with camera controls, rotation effects, and depth perception. Essential for advanced mathematical visualizations.
-
-🎯 KEY PROFESSIONAL TECHNIQUES TO EMULATE:
-
-**Dynamic Curve Generation**: Like SineCurveUnitCircle, create curves that build over time using updaters and always_redraw(). This technique is perfect for showing how mathematical relationships develop.
-
-**Multi-Stage Scene Flow**: Like OpeningManim, structure animations in distinct phases with clear transitions. Use Transform() to evolve concepts and FadeOut() to clear space for new ideas.
-
-**Custom Updater Functions**: Implement sophisticated updater patterns that respond to changing values. Use lambda functions and class methods to create responsive animations.
-
-**Mathematical Storytelling**: Connect abstract concepts to visual representations. Show the "why" and "how" behind mathematical relationships through animated demonstrations.
-
-**Progressive Complexity Building**: Start with simple elements and gradually add complexity. Transform basic shapes into complex mathematical objects through smooth animations.
-
-**Real-Time Curve Drawing**: Use VGroup() and line additions to create curves that draw themselves. Perfect for showing function behavior and mathematical relationships.
-
-**Advanced Positioning Systems**: Use custom coordinate systems and relative positioning. Create your own reference points and build layouts around them.
-
-**Smooth Transition Management**: Master the art of clearing scenes and introducing new content without jarring jumps. Use fadeouts, transformations, and staged reveals.
-
-🎨 VISUAL STORYTELLING PRINCIPLES FROM EXAMPLES:
-
-**Cause and Effect Demonstration**: Show how one mathematical element affects another through connected animations. The unit circle example perfectly demonstrates this.
-
-**Progressive Disclosure**: Reveal mathematical complexity gradually. Don't overwhelm with too much information at once.
-
-**Visual Metaphor Integration**: Use familiar geometric shapes to represent abstract concepts, then transform them to show mathematical relationships.
-
-**Interactive-Style Responsiveness**: Create animations that feel like they're responding to an instructor's explanation. Use pauses, emphasis, and callbacks effectively.
-
-**Mathematical Proof Through Animation**: Use visual demonstrations to prove mathematical statements. Show rather than just tell.
-
-🎓 KEY PATTERNS FROM ALL EXAMPLES:
+🎓 KEY PATTERNS FROM EXAMPLES:
 - Use ValueTracker() for dynamic values that change over time
-- Implement .add_updater() for objects that need to update automatically  
+- Implement .add_updater() for objects that need to update automatically
 - Use always_redraw() for objects that need constant redrawing
 - Combine VGroup() to manage multiple related objects
 - Apply .animate for smooth transformations
@@ -823,27 +758,6 @@ Study these examples to understand how REAL Manim animations are constructed:
 - Use MathTex() for mathematical expressions and Text() for regular text
 - Apply proper color schemes and opacity for visual clarity
 - Use .set_z_index() to control layering of objects
-- Master custom updater functions for real-time curve generation
-- Use multi-stage scene management with clear transitions
-- Implement progressive complexity building through transformations
-- Create mathematical storytelling through connected visual elements
-- Use 3D scene management for advanced visualizations
-- Apply non-linear transformations to demonstrate mathematical concepts
-- Implement real-time drawing techniques for dynamic mathematical relationships
-- Use LaTeX integration for professional mathematical notation
-- Create custom coordinate systems and positioning frameworks
-- Master smooth transition management between complex scenes
-
-💡 INSPIRATION FOR YOUR ANIMATIONS:
-Draw inspiration from these professional examples to create animations that:
-- Build mathematical intuition through visual connections
-- Use sophisticated animation techniques like real-time curve generation
-- Create smooth, professional transitions between concepts
-- Integrate multiple mathematical elements into cohesive visual stories
-- Use advanced positioning and layout systems for optimal presentation
-- Implement progressive complexity that guides understanding
-- Create memorable visual metaphors that reinforce learning
-- Use interactive-style pacing that feels responsive and engaging
 
 EDUCATIONAL STEPS TO IMPLEMENT:"""]
         
@@ -952,7 +866,6 @@ class {class_name}Scene(Scene):
 ```
 
 CRITICAL REQUIREMENTS:
-Please do not use 'CYAN': NameError: name 'CYAN' is not defined
 1. Generate COMPLETE, EXECUTABLE code
 2. Include ALL necessary imports
 3. Follow proper Manim syntax and conventions
@@ -1026,30 +939,6 @@ Please do not use 'CYAN': NameError: name 'CYAN' is not defined
 - ALWAYS complete Text objects on single lines
 - NEVER create orphaned lines starting with font_size= or color=
 - ALWAYS use proper 4-space indentation for class methods
-
-⚠️ ERROR REPORTING AND DIAGNOSTIC INSTRUCTIONS:
-- OVERLAP DETECTION: If objects occupy same coordinates, report with format:
-  "ERROR [Scene_ID]: Text overlap detected - Object1 'title_text' and Object2 'subtitle_text' both at position [0, 2, 0]"
-- BOUNDS VIOLATION: If objects extend beyond safe viewing area, report:
-  "ERROR [Scene_ID]: Bounds violation - Object 'equation_text' extends to X=8.5 (safe limit: X=6.5)"
-- READABILITY ISSUES: If text is too small or overlaps with background, report:
-  "ERROR [Scene_ID]: Readability issue - Object 'detail_text' font_size=8 below minimum readable size (minimum: 16)"
-- MISALIGNMENT DETECTION: If related objects aren't properly aligned, report:
-  "ERROR [Scene_ID]: Alignment issue - Object 'arrow' start point [1, 2, 0] doesn't connect to Object 'circle' center [1.5, 2, 0]"
-- TIMING VIOLATIONS: If scene duration exceeds allocated time, report:
-  "ERROR [Scene_ID]: Timing overflow - Scene duration 8.5s exceeds allocated 6.0s"
-- ANIMATION CONFLICTS: If animations interfere with each other, report:
-  "ERROR [Scene_ID]: Animation conflict - Object 'text1' Transform() overlaps with Object 'text2' FadeIn() at timestamp 2.5s"
-- MISSING ELEMENTS: If required visual elements are absent, report:
-  "ERROR [Scene_ID]: Missing element - No visual representation found for concept 'quadratic formula' in mathematical explanation"
-- POSITIONING ERRORS: If objects use invalid coordinates, report:
-  "ERROR [Scene_ID]: Invalid position - Object 'title' positioned at [0, 5, 0] exceeds maximum Y=3.8 for 16:9 aspect ratio"
-- SCENE FLOW ISSUES: If logical progression is broken, report:
-  "ERROR [Scene_ID]: Flow violation - Concept 'derivatives' introduced before prerequisite 'functions' in step sequence"
-- DIAGNOSTIC FORMAT: All errors must include Scene_ID, Object_Label, Position_Coordinates, and Suggested_Fix
-- ERROR CATEGORIZATION: Classify as CRITICAL (renders fail), WARNING (suboptimal), or INFO (style suggestions)
-- BATCH REPORTING: Collect all errors before reporting to avoid fragmenting output
-- SOLUTION SUGGESTIONS: Each error report must include specific fix recommendation
 
 ANIMATION REQUIREMENTS:
 - Every text element should be animated (Write, FadeIn, etc.)
@@ -1192,43 +1081,8 @@ USE INSTEAD:
 - Color-coded shapes to represent concepts
 - Animated text reveals and transformations
 
+
 Generate the complete Manim code now. Ensure it's production-ready and follows all the requirements above.
-
-🎬 MANDATORY SCENE TIMING VALIDATION:
-- Each scene method must include timing documentation: # Duration: X.X seconds
-- Validate total scene time matches educational step allocation
-- Include timing checkpoints: self.wait() statements with duration comments
-- Implement progressive timing: faster for reviews, slower for new concepts
-- Add scene transition buffers: minimum 1-second pause between major sections
-- Use graduated complexity timing: simple=2s, moderate=4s, complex=6s per concept
-
-🎯 STEP-BY-STEP IMPLEMENTATION REQUIREMENTS:
-- Create sub-methods for each conceptual component
-- Use method naming convention: step_X_part_Y_description()
-- Implement concept scaffolding in method structure
-- Add cross-references between related sub-steps
-- Include understanding validation pauses between sub-steps
-- Create modular methods for easy modification and debugging
-
-💫 ANIMATION TECHNIQUE VALIDATION:
-- Must use minimum 5 different animation types per scene
-- Include at least 2 camera movements for scenes longer than 30 seconds
-- Implement object morphing for abstract concept demonstrations
-- Use layered animations: background, main content, emphasis overlays
-- Include rhythmic pacing: alternate fast/slow animation sequences
-- Apply consistent visual metaphors throughout educational progression
-
-⚠️ FINAL VALIDATION CHECKLIST:
-- [ ] No overlapping text or visual elements
-- [ ] All positions within 16:9 safe viewing area
-- [ ] Scene timing matches educational step duration
-- [ ] Minimum 3-second hold time for complex concepts
-- [ ] Progressive complexity maintained throughout
-- [ ] Visual elements support and enhance text content
-- [ ] Error-free Manim syntax and proper imports
-- [ ] Consistent animation patterns and visual metaphors
-- [ ] Clear scene transitions with adequate buffering
-- [ ] Comprehensive step-by-step conceptual breakdown
 """)
         
         return ''.join(prompt_parts)
@@ -1803,82 +1657,6 @@ Generate the complete Manim code now. Ensure it's production-ready and follows a
             34. CRITICAL: Use LEFT and RIGHT sides for diagrams vs text
             35. CRITICAL: Create visual hierarchy with different font sizes
             Always generate production-ready code that can be executed directly with Manim.
-            
-            🚨 FINAL COMPREHENSIVE ERROR PREVENTION CHECKLIST 🚨:
-            
-            BEFORE GENERATING ANY CODE LINE, VERIFY:
-            
-            1. COLOR VALIDATION:
-               ✅ Is the color in [RED, BLUE, GREEN, YELLOW, WHITE, BLACK, GRAY, PURPLE, ORANGE]?
-               ❌ NEVER use CYAN, PINK, TURQUOISE, MAGENTA, LIME, NAVY, MAROON, TEAL, SILVER, GOLD
-               ❌ NEVER use color variants like RED_DARK, BLUE_LIGHT, GREEN_BRIGHT
-            
-            2. POSITION VALIDATION:
-               ✅ Is the position in [UP, DOWN, LEFT, RIGHT, ORIGIN, UL, UR, DL, DR]?
-               ❌ NEVER use CENTER, MIDDLE, TOP, BOTTOM, UPPER, LOWER
-               ❌ NEVER use directional names like NORTH, SOUTH, EAST, WEST
-            
-            3. METHOD VALIDATION:
-               ✅ Are you using Scene methods [self.add(), self.play(), self.wait(), self.clear(), self.remove()]?
-               ❌ NEVER use self.set_background(), self.configure_camera(), self.set_theme()
-               ❌ NEVER use non-existent methods like self.set_color_scheme()
-            
-            4. OBJECT PARAMETER VALIDATION:
-               ✅ Square() → then .scale() → then .set_color()
-               ✅ Circle(radius=X) → then .set_color()
-               ✅ Text("content", font_size=X) → then .set_color()
-               ❌ NEVER use Square(side_length=X), Circle(color=X), Text(color=X)
-            
-            5. ANIMATION VALIDATION:
-               ✅ Use [Write(), Create(), FadeIn(), FadeOut(), Transform()]
-               ❌ NEVER use Animate(), Show(), Display(), Draw(), Reveal()
-            
-            6. SYNTAX VALIDATION:
-               ✅ Text("hello").shift(UP*2) - proper method chaining
-               ❌ NEVER write Text("hello",.shift(UP*2) - comma before method
-               ❌ NEVER write Text("hello").shift(UP*2 - missing closing parenthesis
-            
-            7. IMPORT VALIDATION:
-               ✅ ONLY use: from manim import *
-               ❌ NEVER import PIL, cv2, pygame, ImageIO, matplotlib
-            
-            8. FILE REFERENCE VALIDATION:
-               ✅ Use Text() descriptions for visual elements
-               ❌ NEVER use ImageMobject(), SVGMobject() with file paths
-               ❌ NEVER reference .png, .jpg, .gif, .svg files
-            
-            🛡️ MANDATORY PRE-CODE GENERATION VALIDATION:
-            Before writing EVERY line of code, ask yourself:
-            - Is this color valid in Manim? (Only 9 colors allowed)
-            - Is this position constant defined? (Only UP, DOWN, LEFT, RIGHT, ORIGIN)
-            - Is this method available in Scene class? (Only 5 basic methods)
-            - Are these object parameters accepted? (Check constructor docs)
-            - Is this animation class valid? (Only documented animations)
-            - Is this syntax correct? (No commas before methods, balanced parentheses)
-            - Are there any external file references? (Remove all image/video/audio files)
-            
-            🚨 ABSOLUTE PROHIBITIONS (WILL CAUSE IMMEDIATE ERRORS):
-            - Any color not in the list of 9 valid colors
-            - Any position constant not in the list of valid positions  
-            - Any Scene method not in the list of 5 valid methods
-            - Any object parameter not documented in Manim
-            - Any animation not in the list of valid animations
-            - Any external file reference (images, videos, audio)
-            - Any syntax error (missing parentheses, commas before methods)
-            - Any import statement other than "from manim import *"
-            
-            
-            🛡️ MANDATORY VALIDATION CHECKLIST:
-            1. ONLY use these valid colors: RED, BLUE, GREEN, YELLOW, WHITE, BLACK, GRAY, PURPLE, ORANGE
-            2. ONLY use these positions: UP, DOWN, LEFT, RIGHT, ORIGIN (with multipliers like UP*2)
-            3. ONLY use valid Scene methods: self.add(), self.play(), self.wait(), self.clear(), self.remove()
-            4. ONLY use valid animations: Write(), Create(), FadeIn(), FadeOut(), Transform()
-            5. NEVER use ImageMobject or external file references
-            6. NEVER use invalid object parameters in constructors
-            7. Set colors with .set_color() method, not in constructor
-            8. Use proper method chaining without syntax errors
-            9. Ensure all parentheses are balanced
-            10. Use consistent 4-space indentation throughout
             '''
         )
 
